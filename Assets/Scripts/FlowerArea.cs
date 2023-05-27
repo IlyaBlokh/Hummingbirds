@@ -1,18 +1,28 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FlowerArea : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public const float AreaDiameter = 20f;
+
+    private List<GameObject> flowerPlants = new();
+    private Dictionary<Collider, Flower> nectarFlowers = new();
+    
+    public List<Flower> Flowers { get; private set; }
+
+    public void ResetFlowers()
     {
+        flowerPlants.ForEach(plant =>
+        {
+            float xRotation = Random.Range(-5f, 5f);
+            float yRotation = Random.Range(-180f, 180f);
+            float zRotation = Random.Range(-5f, 5f);
+            plant.transform.localRotation = Quaternion.Euler(xRotation, yRotation, zRotation);
+        });
         
+        Flowers.ForEach(flower => flower.SetDefault());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public Flower GetFlowerWithCollider(Collider nectarCollider) =>
+        nectarFlowers[nectarCollider];
 }
