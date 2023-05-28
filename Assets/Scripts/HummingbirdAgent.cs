@@ -87,6 +87,44 @@ public class HummingbirdAgent : Agent
         sensor.AddObservation(toFlower.magnitude / FlowerArea.AreaDiameter);
     }
 
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        Vector3 forward = Vector3.zero;
+        Vector3 left = Vector3.zero;
+        Vector3 up = Vector3.zero;
+        float pitch = 0f;
+        float yaw = 0f;
+
+        if (Input.GetKey(KeyCode.W))
+            forward = transform.forward;
+        if (Input.GetKey(KeyCode.S))
+            forward = -transform.forward;
+        if (Input.GetKey(KeyCode.A))
+            left = -transform.right;
+        if (Input.GetKey(KeyCode.D))
+            left = transform.right;
+        if (Input.GetKey(KeyCode.E))
+            up = transform.up;
+        if (Input.GetKey(KeyCode.Q))
+            up = -transform.up;
+        if (Input.GetKey(KeyCode.UpArrow))
+            pitch = 1f;
+        if (Input.GetKey(KeyCode.DownArrow))
+            pitch = -1f;
+        if (Input.GetKey(KeyCode.LeftArrow))
+            yaw = -1f;
+        if (Input.GetKey(KeyCode.RightArrow))
+            yaw = 1f;
+
+        Vector3 movement = (forward + left + up).normalized;
+        ActionSegment<float> continuousActionsOut = actionsOut.ContinuousActions;
+        continuousActionsOut[0] = movement.x;
+        continuousActionsOut[1] = movement.y;
+        continuousActionsOut[2] = movement.z;
+        continuousActionsOut[3] = pitch;
+        continuousActionsOut[4] = yaw;
+;    }
+
     public void SetArea(FlowerArea flowerArea) => 
         this.flowerArea = flowerArea;
 
