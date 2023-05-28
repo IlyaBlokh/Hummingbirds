@@ -177,6 +177,12 @@ public class HummingbirdAgent : Agent
         }
     }
 
+    private void OnCollisionEnter(Collision other)
+    {
+        if (trainingMode && other.collider.CompareTag("Boundary"))
+            AddReward(-0.5f);
+    }
+
     private void SetRandomSafePosition(bool spawnInFrontOfFlower)
     {
         bool safePositionFound = false;
