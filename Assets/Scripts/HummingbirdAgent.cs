@@ -1,6 +1,7 @@
 using System.Linq;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -65,6 +66,25 @@ public class HummingbirdAgent : Agent
             return;
         ApplyMovement(new Vector3(actions.ContinuousActions[0], actions.ContinuousActions[1], actions.ContinuousActions[2]));
         ApplyRotation(actions.ContinuousActions[3], actions.ContinuousActions[4]);
+    }
+
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        if (nearestFlower == null)
+        {
+            sensor.AddObservation(new float[10]);
+            return;
+        }
+        
+        sensor.AddObservation(transform.localRotation.normalized);
+
+        Vector3 toFlower = nearestFlower.FlowerCenterPosition - beakTip.position;
+        sensor.AddObservation(toFlower.normalized);
+        
+        sensor.AddObservation(Vector3.Dot(toFlower.normalized, -nearestFlower.FlowerUpVector.normalized));
+        sensor.AddObservation(Vector3.Dot(beakTip.forward.normalized, -nearestFlower.FlowerUpVector.normalized));
+
+        sensor.AddObservation(toFlower.magnitude / FlowerArea.AreaDiameter);
     }
 
     public void SetArea(FlowerArea flowerArea) => 
