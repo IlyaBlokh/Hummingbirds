@@ -4,15 +4,15 @@ using UnityEngine;
 public class FlowerArea : MonoBehaviour
 {
     public const float AreaDiameter = 20f;
-
-    private List<GameObject> flowerPlants = new();
-    private Dictionary<Collider, Flower> nectarFlowers = new();
     
-    public List<Flower> Flowers { get; private set; }
+    private readonly Dictionary<Collider, Flower> nectarFlowers = new();
 
+    public List<FlowerPlant> FlowerPlants = new();
+    public List<Flower> Flowers = new();
+    
     public void ResetFlowers()
     {
-        flowerPlants.ForEach(plant =>
+        FlowerPlants.ForEach(plant =>
         {
             float xRotation = Random.Range(-5f, 5f);
             float yRotation = Random.Range(-180f, 180f);
@@ -25,4 +25,14 @@ public class FlowerArea : MonoBehaviour
 
     public Flower GetFlowerWithCollider(Collider nectarCollider) =>
         nectarFlowers[nectarCollider];
+
+    public void InitFlowers()
+    {
+        nectarFlowers.Clear();
+        FlowerPlants.ForEach(plant =>
+        {
+            Flowers.AddRange(plant.Flowers);
+            plant.Flowers.ForEach(flower => nectarFlowers.Add(flower.nectarCollider, flower));
+        });
+    }
 }
