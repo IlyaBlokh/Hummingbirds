@@ -1,3 +1,4 @@
+using System.Linq;
 using Unity.MLAgents;
 using UnityEngine;
 
@@ -86,8 +87,18 @@ public class HummingbirdAgent : Agent
 
     private void UpdateNearestFlower()
     {
-        
+        foreach (Flower flower in flowerArea.Flowers.Where(f => f.HasNectar))
+        {
+            if (nearestFlower == null)
+                nearestFlower = flower;
+
+            if (!nearestFlower.HasNectar || IsFlowerCloserCurrentNearest(flower))
+                nearestFlower = flower;
+        }
     }
+
+    private bool IsFlowerCloserCurrentNearest(Flower flower) => 
+        beakTip.position.SqrMagnitudeTo(flower.transform.position) < beakTip.position.SqrMagnitudeTo(nearestFlower.transform.position);
 
     private (Vector3, Quaternion) FindPositionRotationInFrontOfFlower()
     {
@@ -110,4 +121,5 @@ public class HummingbirdAgent : Agent
         Quaternion potentialRotation = Quaternion.Euler(pitch, yaw, 0f);
         return (potentialPosition, potentialRotation);
     }
+    
 }
