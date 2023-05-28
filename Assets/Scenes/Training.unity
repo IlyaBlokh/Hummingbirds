@@ -131,6 +131,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3485474657097667827, guid: 423815a9aec87fb48bbb6f0f35a66653,
+        type: 3}
+      propertyPath: flowerArea
+      value: 
+      objectReference: {fileID: 92285164}
+    - target: {fileID: 3485474657097667827, guid: 423815a9aec87fb48bbb6f0f35a66653,
+        type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1516377495}
     - target: {fileID: 4420374660899403437, guid: 423815a9aec87fb48bbb6f0f35a66653,
         type: 3}
       propertyPath: m_Name

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -19,7 +20,16 @@ namespace Editor
                 
                 flowerArea.FlowerPlants = FindObjectsOfType<FlowerPlant>().ToList();
                 flowerArea.InitFlowers();
+                Debug.Log("Flower area initialized");
             }
+
+            if (GUILayout.Button("Init hummingbirds"))
+            {
+                List<HummingbirdAgent> birds = FindObjectsOfType<HummingbirdAgent>().ToList();
+                birds.ForEach(bird => bird.SetArea(flowerArea));
+                Debug.Log("Flower area set for hummingbird agents");
+            }
+            
             EditorUtility.SetDirty(target);
         }
     }
