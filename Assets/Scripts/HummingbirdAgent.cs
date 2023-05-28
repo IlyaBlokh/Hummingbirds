@@ -1,8 +1,10 @@
+using System;
 using System.Linq;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody))]
 public class HummingbirdAgent : Agent
@@ -141,7 +143,40 @@ public class HummingbirdAgent : Agent
         frozen = false;
         rigidbody.WakeUp();
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        OnTriggerEnterOrStay(other);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        OnTriggerEnterOrStay(other);
+    }
+
+    private void OnTriggerEnterOrStay(Collider collider)
+    {
+        if (collider.CompareTag("Nectar"))
+        {
+            Vector3 closestPointToBeakTip = collider.ClosestPoint(beakTip.position);
+            if (beakTip.position.SqrMagnitudeTo(closestPointToBeakTip) <= BeakTipRadius * BeakTipRadius)
+            {
+                Flower flower = flowerArea.GetFlowerWithCollider(collider);
+                float nectarReceived = flower.Feed(0.01f);
+                NectarObtained += nectarReceived;
+                
+                if (trainingMode)
+                {
+                    float bonus = 0.2f * Mathf.Clamp01(Vector3.Dot(transform.forward.normalized, -nearestFlower.FlowerUpVector.normalized));
+                    AddReward(0.1f + bonus);
+                }
+                
+                if (!flower.HasNectar)
+                    UpdateNearestFlower();
+            }
+        }
+    }
+
     private void SetRandomSafePosition(bool spawnInFrontOfFlower)
     {
         bool safePositionFound = false;
