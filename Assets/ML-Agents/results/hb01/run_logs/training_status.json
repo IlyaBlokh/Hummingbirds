@@ -3,5 +3,45 @@
         "stats_format_version": "0.3.0",
         "mlagents_version": "0.30.0",
         "torch_version": "2.0.1+cpu"
+    },
+    "Hummingbird": {
+        "checkpoints": [
+            {
+                "steps": 499976,
+                "file_path": "results\\hb01\\Hummingbird\\Hummingbird-499976.onnx",
+                "reward": null,
+                "creation_time": 1685298010.4932613,
+                "auxillary_file_paths": [
+                    "results\\hb01\\Hummingbird\\Hummingbird-499976.pt"
+                ]
+            },
+            {
+                "steps": 999944,
+                "file_path": "results\\hb01\\Hummingbird\\Hummingbird-999944.onnx",
+                "reward": 351.4136800765991,
+                "creation_time": 1685299341.7982485,
+                "auxillary_file_paths": [
+                    "results\\hb01\\Hummingbird\\Hummingbird-999944.pt"
+                ]
+            },
+            {
+                "steps": 1038024,
+                "file_path": "results\\hb01\\Hummingbird\\Hummingbird-1038024.onnx",
+                "reward": 361.0955519452691,
+                "creation_time": 1685299432.5667744,
+                "auxillary_file_paths": [
+                    "results\\hb01\\Hummingbird\\Hummingbird-1038024.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1038024,
+            "file_path": "results\\hb01\\Hummingbird.onnx",
+            "reward": 361.0955519452691,
+            "creation_time": 1685299432.5667744,
+            "auxillary_file_paths": [
+                "results\\hb01\\Hummingbird\\Hummingbird-1038024.pt"
+            ]
+        }
     }
 }
