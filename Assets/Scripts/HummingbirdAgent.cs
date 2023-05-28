@@ -183,6 +183,19 @@ public class HummingbirdAgent : Agent
             AddReward(-0.5f);
     }
 
+    private void Update()
+    {
+        if (nearestFlower != null)
+            Debug.DrawLine(beakTip.position, nearestFlower.FlowerCenterPosition, Color.green);
+    }
+
+    private void FixedUpdate()
+    {
+        //update the target flower in case when the nectar was stolen by opponent and the nectar collider was turned off
+        if (nearestFlower != null && !nearestFlower.HasNectar)
+            UpdateNearestFlower();
+    }
+
     private void SetRandomSafePosition(bool spawnInFrontOfFlower)
     {
         bool safePositionFound = false;
