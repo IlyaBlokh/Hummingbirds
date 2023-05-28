@@ -31,6 +31,9 @@ public class HummingbirdAgent : Agent
     
     public float NectarObtained { get; private set; }
 
+    public void SetArea(FlowerArea flowerArea) => 
+        this.flowerArea = flowerArea;
+
     public override void Initialize()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -125,9 +128,20 @@ public class HummingbirdAgent : Agent
         continuousActionsOut[4] = yaw;
 ;    }
 
-    public void SetArea(FlowerArea flowerArea) => 
-        this.flowerArea = flowerArea;
+    public void FreezeAgent()
+    {
+        Debug.Assert(trainingMode == false, "Freeze/Unfreeze is not supported for training mode");
+        frozen = true;
+        rigidbody.Sleep();
+    }
 
+    public void UnfreezeAgent()
+    {
+        Debug.Assert(trainingMode == false, "Freeze/Unfreeze is not supported for training mode");
+        frozen = false;
+        rigidbody.WakeUp();
+    }
+    
     private void SetRandomSafePosition(bool spawnInFrontOfFlower)
     {
         bool safePositionFound = false;
