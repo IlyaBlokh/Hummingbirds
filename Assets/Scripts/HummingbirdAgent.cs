@@ -1,5 +1,6 @@
 using System.Linq;
 using Unity.MLAgents;
+using Unity.MLAgents.Actuators;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -58,6 +59,14 @@ public class HummingbirdAgent : Agent
         UpdateNearestFlower();
     }
 
+    public override void OnActionReceived(ActionBuffers actions)
+    {
+        if (frozen)
+            return;
+        ApplyMovement(new Vector3(actions.ContinuousActions[0], actions.ContinuousActions[1], actions.ContinuousActions[2]));
+        ApplyRotation(actions.ContinuousActions[3], actions.ContinuousActions[4]);
+    }
+
     public void SetArea(FlowerArea flowerArea) => 
         this.flowerArea = flowerArea;
 
@@ -109,7 +118,7 @@ public class HummingbirdAgent : Agent
         Quaternion potentialRotation = Quaternion.LookRotation(toFlower, Vector3.up);
         return (potentialPosition, potentialRotation);
     }
-    
+
     private (Vector3, Quaternion) FindRandomPositionRotation()
     {
         float height = Random.Range(1.2f, 2.5f);
@@ -121,5 +130,23 @@ public class HummingbirdAgent : Agent
         Quaternion potentialRotation = Quaternion.Euler(pitch, yaw, 0f);
         return (potentialPosition, potentialRotation);
     }
-    
+
+    private void ApplyMovement(Vector3 move) => 
+        rigidbody.AddForce(move * moveForce);
+
+    private void ApplyRotation(float pitchChange, float yawChange)
+    {
+        Vector3 currentRotation = transform.rotation.eulerAngles;
+        smoothPitchChange = Mathf.MoveTowards(smoothPitchChange, pitchChange, 2f * Time.fixedDeltaTime);
+        smoothYawChange = Mathf.MoveTowards(smoothYawChange, yawChange, 2f * Time.fixedDeltaTime);
+
+        float pitch = currentRotation.x + smoothPitchChange * Time.fixedDeltaTime * pitchSpeed;
+        if (pitch > 180f)
+            pitch -= 360f;
+        pitch = Mathf.Clamp(pitch, -MaxPitchAngle, MaxPitchAngle);
+
+        float yaw = currentRotation.y + smoothYawChange * Time.fixedDeltaTime * yawSpeed;
+
+        transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
+    }
 }
