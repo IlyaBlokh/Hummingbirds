@@ -3,6 +3,7 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utils;
 using Random = UnityEngine.Random;
 
@@ -26,7 +27,7 @@ namespace Gameplay
         private bool frozen;
     
         public Transform beakTip;
-        public Camera playerCamera;
+        public Camera agentCamera;
         public bool trainingMode;
         [Header("Movement")]
         public float moveForce = 2f;

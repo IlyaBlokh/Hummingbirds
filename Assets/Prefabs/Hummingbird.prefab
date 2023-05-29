@@ -719,7 +719,7 @@ MonoBehaviour:
   MaxStep: 5000
   flowerArea: {fileID: 0}
   beakTip: {fileID: 749827769155012578}
-  playerCamera: {fileID: 4239579381429680718}
+  agentCamera: {fileID: 4239579381429680718}
   trainingMode: 1
   moveForce: 2
   pitchSpeed: 100
