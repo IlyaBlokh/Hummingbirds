@@ -93,7 +93,7 @@ namespace Core
         
             mainCamera.gameObject.SetActive(true);
             player.agentCamera.gameObject.SetActive(false);
-            opponent.agentCamera.gameObject.SetActive(false); // Never turn this back on
+            opponent.agentCamera.gameObject.SetActive(false);
         
             flowerArea.ResetFlowers();
 
