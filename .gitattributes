@@ -1,3 +1,4 @@
 *.pt linguist-detectable=false
 *.onnx linguist-detectable=false
 *.shader linguist-detectable=false
+Assets/ML-Agents/* linguist-vendored
